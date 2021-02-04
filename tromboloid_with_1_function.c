@@ -1,8 +1,9 @@
 //Write a program to find the volume of a tromboloid using one function
+#include <stdio.h>
 #include<stdio.h>
 	float tromboloid(float height, float depth, float breadth)
 	{
-		return 0.33*((height*depth*breadth)+(depth/breadth))
+		return 0.33*((height*depth*breadth)+(depth/breadth));
 	}
 	int main()
 	{
