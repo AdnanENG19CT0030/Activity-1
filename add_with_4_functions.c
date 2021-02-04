@@ -6,7 +6,7 @@
 		printf("Enter number 1:\n");
 		scanf("%d",&x);
 		printf("Enter number 2:\n");
-		scanf("%d",&x);
+		scanf("%d",&y);
 	}
 	int getSum(int a,int b)
 	{
