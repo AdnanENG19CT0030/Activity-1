@@ -1,6 +1,5 @@
 //WAP to find the sum of two fractions.
 #include<stdio.h>
-int nr,dr,G;
 struct Fraction
 {
   int num,den;
@@ -18,6 +17,7 @@ void inputValues()
 }
 void computeFraction()
 {
+  int nr,dr,G;
   nr = frac[0].num*frac[1].den+frac[1].num*frac[0].den;
   dr = frac[0].den*frac[1].den;
   for(int a=1;a<=nr && a<=dr;a++)
@@ -25,15 +25,11 @@ void computeFraction()
     if(nr%a==0 && dr%a==0)
       G = a;
   }
-}
-void printFraction()
-{
   printf("The resultant fraction is %d / %d\n",(nr/G),(dr/G));
 }
 int main()
 {
   inputValues();
   computeFraction();
-  printFraction();
   return 0;
 }
