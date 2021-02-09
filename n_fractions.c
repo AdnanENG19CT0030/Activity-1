@@ -1,51 +1,68 @@
-//WAP to find the sum of n fractions.
 #include<stdio.h>
-	int n;
-	struct Fraction
-	{
-		int nr[100],dr[100];	
-	}F;
-	void takeFractions()
-	{
-		printf("Enter the number of fractions to be added:\n");
-		scanf("%d",&n);
-		for(int i=0;i<n;i++)
-		{
-			printf("Enter numerator of fraction %d:\n",i+1);
-			scanf("%d",&F.nr[i]);
-			printf("Enter denominator of fraction %d:\n",i+1);
-			scanf("%d",&F.dr[i]);
-		}
-	}
-	int findGCD(int x, int y)
-	{
-		if(y==0)
-			return x;
-		return findGCD(y, x%y);
-}
-int findLCM(int l[], int v)
+typedef struct fraction
 {
-	int sol = l[0];
-	for(int i=1;i<v;i++)
-		sol = (((l[i]*sol))/(findGCD(l[i],sol)));
-	return sol;
-}
-void computeSum(int tot, int N[], int D[])
+  int nr;
+  int dr;
+}Frac;
+int givemeGCD(int x, int y)
 {
-	int fnr = 0, fdr = findLCM(D,tot);
-	for(int i=0;i<tot;i++)
-	{
-	fnr = fnr + (N[i])*(fdr/D[i]);
-	}
-	int G = findGCD(fnr,fdr);
-	fnr /= G;
-	fdr /=G;
-	printf("Sum of %d fractions is:\n",tot);
-	printf("%d / %d\n",fnr,fdr);
+  if(x==0)
+    return y;
+  else
+    return givemeGCD(y%x,x);
+}
+int givemeLCM(int c, int val[])
+{
+  int lcm = val[0];
+  for(int x=1;x<c;x++)
+  {
+    lcm = (((val[x]*lcm))/(givemeGCD(val[x],lcm)));
+  }
+  return lcm;
+}
+Frac getFrac()
+{
+  Frac t;
+  printf("Enter the numerator of the fraction:\n");
+  scanf("%d",&t.nr);
+  printf("Enter the denominator of the fraction:\n");
+  scanf("%d",&t.dr);
+  return t;
+}
+void printFrac(Frac f)
+{
+  printf("The fraction is %d / %d\n",f.nr,f.dr);
+}
+void getFractions(int *nod, Frac nods[])
+{
+  printf("Enter the number of fractions:\n");
+  scanf("%d",nod);
+  for(int c=0;c<*nod;c++)
+    nods[c] = getFrac();
+}
+Frac computeSum(int nof, Frac fracs[])
+{
+  Frac res;
+  int nrs[nof], drs[nof], G;
+  res.nr = 0;
+  for(int i=0;i<nof;i++)
+    drs[i] = fracs[i].dr;
+  res.dr = givemeLCM(nof,drs);
+  for(int j=0;j<nof;j++)
+    nrs[j] = res.dr/drs[j];
+  for(int k=0;k<nof;k++)
+    res.nr = res.nr+nrs[k];
+  G = givemeGCD(res.nr,res.dr);
+  res.nr /= G;
+  res.dr /= G;
+  return res;
 }
 int main()
 {
-	takeFractions();
-	computeSum(n,F.nr,F.dr);
-	return 0;
+  int n;
+  Frac frns[100], sum;
+  getFractions(&n,frns);
+  sum = computeSum(n,frns);
+  printFrac(sum);
+  return 0;
 }
