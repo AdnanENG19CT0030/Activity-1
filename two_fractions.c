@@ -1,35 +1,48 @@
 //WAP to find the sum of two fractions.
 #include<stdio.h>
-struct Fraction
+typedef struct Fraction
 {
-  int num,den;
-}frac[2];
-void inputValues()
+  int nr;
+  int dr;
+}Frac;
+int givemeGCD(int x, int y)
 {
-  printf("Enter the numerator of the first fraction:\n");
-  scanf("%d",&frac[0].num);
-  printf("Enter the denominator of the first fraction:\n");
-  scanf("%d",&frac[0].den);
-  printf("Enter the numerator of the second fraction:\n");
-  scanf("%d",&frac[1].num);
-  printf("Enter the denominator of the second fraction:\n");
-  scanf("%d",&frac[1].den);
+  if(x==0)
+    return y;
+  else  
+    return givemeGCD(y%x,x);
 }
-void computeFraction()
+Frac getFrac()
 {
-  int nr,dr,G;
-  nr = frac[0].num*frac[1].den+frac[1].num*frac[0].den;
-  dr = frac[0].den*frac[1].den;
-  for(int a=1;a<=nr && a<=dr;a++)
-  {
-    if(nr%a==0 && dr%a==0)
-      G = a;
-  }
-  printf("The resultant fraction is %d / %d\n",(nr/G),(dr/G));
+  Frac t;
+  printf("Enter numerator of the fraction:\n");
+  scanf("%d",&t.nr);
+  printf("Enter denominator of the fraction:\n");
+  scanf("%d",&t.dr);
+  return t;
+}
+Frac computeSum(Frac f1, Frac f2)
+{
+  Frac sum;
+  int G;
+  sum.nr = (f1.nr*f2.dr)+(f2.nr*f1.dr);
+  sum.dr = f1.dr*f2.dr;
+  G = givemeGCD(sum.nr,sum.dr);
+  sum.nr = sum.nr/G;
+  sum.dr = sum.dr/G;
+  return sum;
+}
+void printFrac(Frac f)
+{
+  printf("The fraction is %d / %d\n",f.nr,f.dr);
 }
 int main()
 {
-  inputValues();
-  computeFraction();
+  Frac fr1,fr2,res;
+  fr1 = getFrac();
+  fr2 = getFrac();
+  res = computeSum(fr1,fr2);
+  printFrac(res);
   return 0;
 }
+
