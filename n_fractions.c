@@ -32,7 +32,12 @@ Frac getFrac()
 void printFrac(int nof, Frac fracs[], Frac f)
 {
   for(int n=0;n<nof;n++)
-    printf("%d/%d + ",fracs[n].nr,fracs[n].dr);
+  {
+    if(n==nof-1)
+      printf("%d/%d ",fracs[n].nr,fracs[n].dr);
+    else
+      printf("%d/%d + ",fracs[n].nr,fracs[n].dr);
+  }
   printf("is %d/%d\n",f.nr,f.dr);
 }
 void getFractions(int *nod, Frac nods[])
