@@ -4,19 +4,19 @@ typedef struct fraction
   int nr;
   int dr;
 }Frac;
-int givemeGCD(int x, int y)
+int computeGCD(int s, int t)
 {
-  if(x==0)
-    return y;
+  if(s==0)
+    return t;
   else
-    return givemeGCD(y%x,x);
+    return computeGCD(t%s,s);
 }
-int givemeLCM(int c, int val[])
+int computeLCM(int d, int ar[])
 {
-  int lcm = val[0];
-  for(int x=1;x<c;x++)
+  int lcm = ar[0];
+  for(int x=1;x<d;x++)
   {
-    lcm = (((val[x]*lcm))/(givemeGCD(val[x],lcm)));
+    lcm = (((ar[x]*lcm))/(computeGCD(ar[x],lcm)));
   }
   return lcm;
 }
@@ -29,9 +29,11 @@ Frac getFrac()
   scanf("%d",&t.dr);
   return t;
 }
-void printFrac(Frac f)
+void printFrac(int nof, Frac fracs[], Frac f)
 {
-  printf("The fraction is %d / %d\n",f.nr,f.dr);
+  for(int n=0;n<nof;n++)
+    printf("%d/%d + ",fracs[n].nr,fracs[n].dr);
+  printf("is %d/%d\n",f.nr,f.dr);
 }
 void getFractions(int *nod, Frac nods[])
 {
@@ -47,12 +49,12 @@ Frac computeSum(int nof, Frac fracs[])
   res.nr = 0;
   for(int i=0;i<nof;i++)
     drs[i] = fracs[i].dr;
-  res.dr = givemeLCM(nof,drs);
+  res.dr = computeLCM(nof,drs);
   for(int j=0;j<nof;j++)
     nrs[j] = res.dr/drs[j];
   for(int k=0;k<nof;k++)
     res.nr = res.nr+nrs[k];
-  G = givemeGCD(res.nr,res.dr);
+  G = computeGCD(res.nr,res.dr);
   res.nr /= G;
   res.dr /= G;
   return res;
@@ -63,6 +65,6 @@ int main()
   Frac frns[100], sum;
   getFractions(&n,frns);
   sum = computeSum(n,frns);
-  printFrac(sum);
+  printFrac(n,frns,sum);
   return 0;
 }
