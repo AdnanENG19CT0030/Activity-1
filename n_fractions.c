@@ -11,12 +11,15 @@ int computeGCD(int s, int t)
   else
     return computeGCD(t%s,s);
 }
-int computeLCM(int d, int ar[])
+int computeLCM(int d, Frac ar[])
 {
-  int lcm = ar[0];
+  int arr[d];
+  for(int b=0;b<d;b++)
+    arr[b] = ar[b].dr;
+  int lcm = arr[0];
   for(int x=1;x<d;x++)
   {
-    lcm = (((ar[x]*lcm))/(computeGCD(ar[x],lcm)));
+    lcm = (((arr[x]*lcm))/(computeGCD(arr[x],lcm)));
   }
   return lcm;
 }
@@ -49,11 +52,9 @@ void getFractions(int *nod, Frac nods[])
 Frac computeSum(int nof, Frac fracs[])
 {
   Frac res;
-  int drs[nof], G;
+  int G;
   res.nr = 0;
-  for(int i=0;i<nof;i++)
-    drs[i] = fracs[i].dr;
-  res.dr = computeLCM(nof,drs);
+  res.dr = computeLCM(nof,fracs);
   for(int j=0;j<nof;j++)
     res.nr = res.nr+(fracs[j].nr)*(res.dr/fracs[j].dr);
   G = computeGCD(res.nr,res.dr);
