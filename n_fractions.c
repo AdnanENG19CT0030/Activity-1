@@ -31,11 +31,10 @@ Frac getFrac()
 }
 void printFrac(int nof, Frac fracs[], Frac f)
 {
-  int n=0;
-  while(n<nof-1)
+  int n;
+  for(n=0;n<nof-1;n++)
   {
     printf("%d/%d + ",fracs[n].nr,fracs[n].dr);
-    n++;
   }
   printf("%d/%d ",fracs[n].nr,fracs[n].dr);
   printf("is %d/%d\n",f.nr,f.dr);
@@ -50,15 +49,13 @@ void getFractions(int *nod, Frac nods[])
 Frac computeSum(int nof, Frac fracs[])
 {
   Frac res;
-  int nrs[nof], drs[nof], G;
+  int drs[nof], G;
   res.nr = 0;
   for(int i=0;i<nof;i++)
     drs[i] = fracs[i].dr;
   res.dr = computeLCM(nof,drs);
   for(int j=0;j<nof;j++)
-    nrs[j] = res.dr/drs[j];
-  for(int k=0;k<nof;k++)
-    res.nr = res.nr+nrs[k];
+    res.nr = res.nr+(fracs[j].nr)*(res.dr/fracs[j].dr);
   G = computeGCD(res.nr,res.dr);
   res.nr /= G;
   res.dr /= G;
