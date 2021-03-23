@@ -2,9 +2,8 @@
 #include<math.h>
 typedef struct rectangle
 {
-  float coords[6];// x1 y1 x2 y2 x3 y3
-  float len;
-  float brt;
+  float coords[6];
+  float sides[3];
   float area;
 }Rect;
 int get_Input(int n,Rect r[])
@@ -20,11 +19,21 @@ int get_Input(int n,Rect r[])
   }
   return n;
 }
+float find_max(float a, float b, float c)
+{
+    return a>b?(a>c?a:c):(b>c?b:c);
+}
 float compute_area(Rect rs)
 {
-  rs.len = sqrt(pow(rs.coords[2]-rs.coords[0],2)+pow(rs.coords[3]-rs.coords[1],2));
-  rs.brt = sqrt(pow(rs.coords[5]-rs.coords[3],2)+pow(rs.coords[4]-rs.coords[2],2));
-  rs.area = rs.len*rs.brt;
+  rs.sides[0] = sqrt(pow(rs.coords[2]-rs.coords[0],2)+pow(rs.coords[3]-rs.coords[1],2));
+  rs.sides[1] = sqrt(pow(rs.coords[5]-rs.coords[3],2)+pow(rs.coords[4]-rs.coords[2],2));
+  rs.sides[2] = sqrt(pow(rs.coords[4]-rs.coords[0],2)+pow(rs.coords[5]-rs.coords[1],2));
+  if(rs.sides[0] == find_max(rs.sides[0],rs.sides[1],rs.sides[2]))
+    rs.area = rs.sides[1]*rs.sides[2];
+  else if(rs.sides[1] == find_max(rs.sides[0],rs.sides[1],rs.sides[2]))
+    rs.area = rs.sides[0]*rs.sides[2];
+  else if(rs.sides[2] == find_max(rs.sides[0],rs.sides[1],rs.sides[2]))
+    rs.area = rs.sides[0]*rs.sides[1];
   return rs.area;
 }
 void print_Output(Rect R)
