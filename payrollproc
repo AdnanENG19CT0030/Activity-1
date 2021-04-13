@@ -1,0 +1,65 @@
+#include<stdio.h>
+#include<string.h>
+typedef struct Employee
+{
+  char name[50];
+  float hrwage;
+  float nofhrs;
+  float gpay;
+}E;
+typedef struct TimeCard
+{
+  char name[50];
+  int nofmin;
+}TC;
+void get_Data(int n, int m, E emp[], TC tymc[])
+{
+  int i;
+  //do
+  //{
+  //  scanf("%d\n",n);
+  //}while(*n<=20);
+  scanf("%d\n",&n);
+  for(i=0;i<n;i++)
+    scanf("%s%f\n",emp[i].name,&emp[i].hrwage);
+  scanf("%d\n",&m);
+  for(i=0;i<m;i++)
+    scanf("%s%d\n",tymc[i].name,&tymc[i].nofmin);
+}
+void compute_gpay(int n, int m, E emp[], TC tymc[])
+{
+  int i,j;
+  for(i=0;i<n;i++)
+  {
+    // emp[i].gpay = 0;
+    // emp[i].nofhrs = 0;
+    for(j=0;j<m;j++)
+    {
+      if( strcmpi(emp[i].name,tymc[j].name) == 0)
+      {
+        emp[i].nofhrs += (float) tymc[j].nofmin/60;
+        emp[i].gpay += (emp[i].nofhrs>=0 && emp[i].nofhrs<=40) ? emp[i].hrwage*emp[i].nofhrs : (1.5*emp[i].hrwage)*emp[i].nofhrs ;
+      }
+    }
+  }
+}
+void put_Data(int n, E emp[])
+{
+  int i;
+  for(i=0;i<n;i++)
+  {
+    if(emp[i].nofhrs != 0)
+      printf("%s : %.2f hours , $ %.2f\n",emp[i].name,emp[i].nofhrs,emp[i].gpay);
+  }
+  printf("\n");
+}
+int main()
+{
+  int a,b;
+  E employees[100];
+  TC timecards[100];
+  get_Data(a,b,employees,timecards);
+  compute_gpay(a,b,employees,timecards);
+  put_Data(a,employees);
+  return 0;
+}
